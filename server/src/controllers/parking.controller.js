@@ -18,10 +18,10 @@ parkingCtrl.getVehicles = (req, res) => {
 
 parkingCtrl.addVehicle = (req, res) => {
     try {
-        const { propietario, vehiculo, tipo, placa } = req.body;
-        const query = 'INSERT INTO vehiculos (propietario, vehiculo, tipo, placa) VALUES (?, ?, ?, ?)';
+        const { propietario, vehiculo, tipo, placa, plaza } = req.body;
+        const query = 'INSERT INTO vehiculos (propietario, vehiculo, tipo, placa, plaza) VALUES (?, ?, ?, ?, ?)';
 
-        db.query(query, [propietario, vehiculo, tipo, placa], (err, result) => {
+        db.query(query, [propietario, vehiculo, tipo, placa, plaza], (err, result) => {
             if (err) {
                 console.error('Error al ingresar el vehiculo');
                 return;
