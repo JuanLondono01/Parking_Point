@@ -1,0 +1,52 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+label{
+    position: relative;
+    height: 2rem;
+    width: max-content;
+    padding-inline: 2rem;
+    padding-block: .5rem;
+    margin-inline: 1rem;
+    border-radius: 6px;
+    border: 1px solid black;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+input[type='checkbox']{
+    display: none;
+}
+
+input[type='checkbox']:checked + label {
+    background-color: lightgray;
+}
+
+
+button{
+    height: 2rem;
+    width: max-content;
+    padding-inline: .7rem;
+    border-radius: 6px;
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+input[type='checkbox']:checked + label .check-icon {
+    visibility: visible;
+}
+
+.check-icon {
+    position: absolute;
+    visibility: hidden;
+    left: .5rem;
+    top: .3rem;
+}

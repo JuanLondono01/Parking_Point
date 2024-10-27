@@ -1,0 +1,13 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+input{
+    height: 2rem;
+    border-radius: 6px;
+    border: 1px solid black;
+    text-indent: 5px;
+    width: 23rem;
+}
