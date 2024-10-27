@@ -9,4 +9,4 @@ router.route("/")
 router.route("/:id")
     .delete(exitVehicle)
 
-module.exports = router
+module.exports = router;
