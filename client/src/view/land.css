@@ -33,3 +33,38 @@ header{
 .searchBar{
     margin-left: -1rem;
 }
+
+.cards{
+    margin-top: 8rem;
+
+}
+
+.heads {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* Seis columnas para datos y el botón */
+    text-align: center;
+    font-weight: bold;
+}
+
+.heads span,
+.parkCard span {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.salidaButton {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.heads {
+    background-color: #f0f0f0;
+}
+
+.tarifas{
+    display: flex;
+    justify-content: space-around;
+}
