@@ -29,8 +29,12 @@ const useGetVehicles = () => {
     }
 
     useEffect(() => {
-        fetchVehicles()
-    }, [])
+        const interval = setInterval(() => {
+            fetchVehicles();
+        }, 2000); // Cada 2 segundos
+    
+        return () => clearInterval(interval);
+    }, [Vehicles])
     
 
     return {Vehicles, Loading, Error}
