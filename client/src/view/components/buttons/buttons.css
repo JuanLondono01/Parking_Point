@@ -38,6 +38,11 @@ button{
     color: white;
     border: 1px solid black;
     cursor: pointer;
+    transition: .2s linear;
+}
+
+button:hover{
+    background-color: rgb(80, 80, 80);
 }
 
 input[type='checkbox']:checked + label .check-icon {

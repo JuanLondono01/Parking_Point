@@ -3,9 +3,13 @@ import { Checkbox, Button } from './components/buttons/Buttons';
 import { Cards } from './components/cards/Cards';
 import { SearchBar } from './components/search/SearchBar';
 import { Tarifas } from './components/tarifas/Tarifas';
+import useGetVehicles from '../hooks/useGetVehicles.ts';
 import './land.css';
+import React from 'react';
 
 export const Land = () => {
+    const { Vehicles, Loading, Error } = useGetVehicles();
+
     const fechaActual = new Date();
     return (
         <>
@@ -38,29 +42,24 @@ export const Land = () => {
                 </div>
                 <div className='parkCard'>
                     <hr />
-                    <Cards
-                        fechaIngreso={fechaActual}
-                        Nombre='Juan Londoño'
-                        placa='EQW387'
-                        tipoVehiculo='Auto'
-                        vehiculo='Mazda3'
-                    />
-                    <hr />
-                    <Cards
-                        fechaIngreso={fechaActual}
-                        Nombre='Juan Londoño'
-                        placa='EQW387'
-                        tipoVehiculo='Auto'
-                        vehiculo='Mazda3'
-                    />
-                    <hr />
-                    <Cards
-                        fechaIngreso={fechaActual}
-                        Nombre='Juan Londoño'
-                        placa='EQW387'
-                        tipoVehiculo='Auto'
-                        vehiculo='Mazda3'
-                    />
+                    {Loading && <p>Cargando vehículos...</p>}
+                    {Error && <p>Error: {Error}</p>}
+                    {!Loading && !Error && (Vehicles.length > 0 ? (
+                        Vehicles.map((vehicle) => (
+                            <React.Fragment key={vehicle.placa}>
+                                <hr />
+                                <Cards
+                                    fechaIngreso={vehicle.fechaIngreso || fechaActual}
+                                    Nombre={vehicle.propietario}
+                                    tipoVehiculo={vehicle.tipo}
+                                    vehiculo={vehicle.vehiculo}
+                                    placa={vehicle.placa}
+                                />
+                            </React.Fragment>
+                        ))
+                    ) : (
+                        <p>Aún no hay vehículos registrados en el parking</p>
+                    ))}
                 </div>
             </div>
             <div className='tarifas'>
