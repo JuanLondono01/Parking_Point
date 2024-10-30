@@ -7,9 +7,12 @@ interface TarjetaPark {
     vehiculo: string;
     placa: string;
     tipoVehiculo: string;
+    onClick: () => void
 }
 
-export const Cards: React.FC<TarjetaPark> = ({ fechaIngreso, Nombre, vehiculo, placa, tipoVehiculo }) => {
+
+
+export const Cards: React.FC<TarjetaPark> = ({ fechaIngreso, Nombre, vehiculo, placa, tipoVehiculo, onClick }) => {
     return (
         <>
             <div className='card'>
@@ -18,7 +21,7 @@ export const Cards: React.FC<TarjetaPark> = ({ fechaIngreso, Nombre, vehiculo, p
                 <p>{vehiculo}</p>
                 <p>{placa}</p>
                 <p>{tipoVehiculo}</p>
-                <button>Registrar salida</button>
+                <button onClick={onClick}>Registrar salida</button>
             </div>
         </>
     );

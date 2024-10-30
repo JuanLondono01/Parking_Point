@@ -5,12 +5,13 @@ import './buttons.css';
 interface Checkbox {
     text: string;
     id: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const Checkbox: React.FC<Checkbox> = ({ text, id }) => {
+export const Checkbox: React.FC<Checkbox> = ({ text, id, onChange }) => {
     return (
         <>
-            <input type='checkbox' id={id} />
+            <input type='checkbox' id={id} onChange={onChange}/>
             <label htmlFor={id}>
                 <span className='check-icon'>
                     <FaCheck />
