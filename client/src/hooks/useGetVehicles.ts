@@ -6,7 +6,8 @@ interface Vehicle{
     propietario: string,
     vehiculo: string,
     tipo: string,
-    placa: string
+    placa: string,
+    id: string
 }
 
 const useGetVehicles = () => {
