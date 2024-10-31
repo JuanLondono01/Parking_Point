@@ -10,7 +10,7 @@ interface Vehicle{
     id: string
 }
 
-const useGetVehicles = () => {
+const useGetVehicles = (trigger: number) => {
     const [Vehicles, SetVehicles] = useState<Vehicle[]>([])
     const [Loading, setLoading] = useState<boolean>(true)
     const [Error, setError] = useState<string | null>(null)
@@ -30,12 +30,8 @@ const useGetVehicles = () => {
     }
 
     useEffect(() => {
-        const interval = setInterval(() => {
             fetchVehicles();
-        }, 2000); // Cada 2 segundos
-    
-        return () => clearInterval(interval);
-    }, [Vehicles])
+    }, [trigger])
     
 
     return {Vehicles, Loading, Error}

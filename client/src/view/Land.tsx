@@ -7,15 +7,22 @@ import useGetVehicles from '../hooks/useGetVehicles.ts';
 import './land.css';
 import React, { useState } from 'react';
 import { useDeleteVehicles } from '../hooks/useDeleteVehicles.ts';
+import { AddModal } from './components/modal/Modal.tsx';
+import Swal from 'sweetalert2';
 
 export const Land = () => {
-    const { Vehicles, Loading, Error } = useGetVehicles();
+    const [trigger, setTrigger] = useState(0);
+    const { Vehicles, Loading, Error } = useGetVehicles(trigger);
     const { deleteVehicle } = useDeleteVehicles();
     const [Value, setValue] = useState<string>('');
     const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set());
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
+    };
+
+    const handleAddVehicle = () => {
+        setTrigger((prev) => prev + 1);
     };
 
     const handleCheckboxChange = (type: string) => {
@@ -33,7 +40,13 @@ export const Land = () => {
     const handleDelete = async (vehicleId: string) => {
         try {
             await deleteVehicle(vehicleId);
-            alert('Vehículo eliminado correctamente');
+            Swal.fire({
+                title: 'Vehiculo eliminado correctamente',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            setTrigger((prev) => prev - 1);
         } catch (error) {
             console.error('Error al eliminar el vehículo', error);
         }
@@ -56,7 +69,6 @@ export const Land = () => {
             <header>
                 <img src={img} alt='Company logo' className='logo' />
             </header>
-
             <div className='toolBar'>
                 <div className='checks'>
                     <Checkbox
@@ -71,7 +83,7 @@ export const Land = () => {
                     <SearchBar onSearch={onChange} value={Value.toUpperCase()} />
                 </div>
                 <div className='buttons'>
-                    <Button text='Añadir vehiculo'/>
+                    <AddModal title='Añadir vehiculo' text='Añadir Vehiculo' onVehicleAdded={handleAddVehicle} />
                     <Button text='Espacios Disponibles' />
                 </div>
             </div>

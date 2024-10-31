@@ -12,7 +12,7 @@ export const Checkbox: React.FC<Checkbox> = ({ text, id, onChange }) => {
     return (
         <>
             <input type='checkbox' id={id} onChange={onChange}/>
-            <label htmlFor={id}>
+            <label htmlFor={id} className='ButtonL'>
                 <span className='check-icon'>
                     <FaCheck />
                 </span>
