@@ -1,116 +1,94 @@
-import * as React from 'react';
-import Button from '@mui/joy/Button';
-import Modal from '@mui/joy/Modal';
-import ModalClose from '@mui/joy/ModalClose';
-import Typography from '@mui/joy/Typography';
-import Sheet from '@mui/joy/Sheet';
-import { FormControl, FormLabel, Input, Select, Option } from '@mui/joy';
+import { Input } from '@mui/joy';
+import './css/add.css';
 import { useAddVehicles } from '../../../hooks/useAddVehicles';
+import React, { useState } from 'react';
 
-export default function SelectBasic({ onSelect }: { onSelect: (value: string) => void }) {
-    const handleChange = (event: React.SyntheticEvent | null, newValue: string | null) => {
-        if (newValue) {
-            console.log(`Selected: ${newValue}`);
-            onSelect(newValue);
+interface ModalProps {
+    onVehicleAdded: () => void;
+}
+
+export const Modal: React.FC<ModalProps> = ({ onVehicleAdded }) => {
+    const { addVehicle } = useAddVehicles();
+    const [propietario, setPropietario] = useState<string>('');
+    const [vehiculo, setVehiculo] = useState<string>('');
+    const [placa, setPlaca] = useState<string>('');
+    const [tipo, setTipo] = useState<string>('');
+    const [isOpen, setIsOpen] = useState<boolean>(false); // Nuevo estado para controlar la visibilidad del modal
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { id, value } = e.target;
+        switch (id) {
+            case 'propietario':
+                setPropietario(value.toUpperCase());
+                break;
+            case 'vehiculo':
+                setVehiculo(value.toUpperCase());
+                break;
+            case 'placa':
+                setPlaca(value.toUpperCase());
+                break;
+            case 'tipo':
+                setTipo(value.toUpperCase());
+                break;
+            default:
+                break;
         }
     };
 
-    return (
-        <Select defaultValue='' onChange={(event, newValue) => handleChange(event, newValue)}>
-            <Option value=''>Selecciona un tipo de vehículo</Option>
-            <Option value='Motocicleta'>Motocicleta</Option>
-            <Option value='Auto'>Auto</Option>
-            <Option value='Vehiculo Pesado'>Vehiculo Pesado</Option>
-        </Select>
-    );
-}
-
-interface ModalProps {
-    text?: string;
-    title?: string;
-    onVehicleAdded: () => void
-}
-
-export const AddModal: React.FC<ModalProps> = ({ text, title, onVehicleAdded }) => {
-    const { addVehicle } = useAddVehicles();
-    const [open, setOpen] = React.useState<boolean>(false);
-    const [propietario, setPropietario] = React.useState<string>('');
-    const [vehiculo, setVehiculo] = React.useState<string>('');
-    const [placa, setPlaca] = React.useState<string>('');
-    const [tipo, setTipo] = React.useState<string>('');
-
-    const handleConfirm = () => {
+    const handleAddVehicle = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         const vehicleData = { propietario, vehiculo, placa, tipo };
         addVehicle(vehicleData);
-        onVehicleAdded()
-        setOpen(false);
+
+        // Limpiar los campos
+        setPropietario('');
+        setVehiculo('');
+        setPlaca('');
+        setTipo('');
+
+        // Cerrar el modal
+        setIsOpen(false);
+        onVehicleAdded();
     };
 
     return (
-        <React.Fragment>
-            <Button variant='solid' color='neutral' onClick={() => setOpen(true)}>
-                {text}
-            </Button>
-            <Modal
-                aria-labelledby='modal-title'
-                aria-describedby='modal-desc'
-                open={open}
-                onClose={() => setOpen(false)}
-                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Sheet variant='outlined' sx={{ maxWidth: 500, borderRadius: 'md', p: 3, boxShadow: 'lg' }}>
-                    <ModalClose variant='plain' sx={{ m: 1 }} />
-                    <Typography
-                        component='div'
-                        id='modal-title'
-                        level='h4'
-                        textColor='inherit'
-                        sx={{ fontWeight: 'lg', mb: 1 }}>
-                        {title}
-                    </Typography>
-                    <Typography id='modal-desc' textColor='text.tertiary' component='div'>
-                        <FormControl orientation='vertical' size='lg'>
-                            <FormLabel>Propietario</FormLabel>
-                            <Input
-                                color='neutral'
-                                variant='outlined'
-                                sx={{ pt: 1 }}
-                                value={propietario.toUpperCase()}
-                                onChange={(e) => setPropietario(e.target.value)}
-                            />
-                        </FormControl>
-                        <FormControl orientation='vertical' size='lg'>
-                            <FormLabel>Vehiculo</FormLabel>
-                            <Input
-                                color='neutral'
-                                variant='outlined'
-                                sx={{ pt: 1 }}
-                                value={vehiculo.toUpperCase()}
-                                onChange={(e) => setVehiculo(e.target.value)}
-                            />
-                        </FormControl>
-                        <FormControl orientation='vertical' size='lg'>
-                            <FormLabel>Placa</FormLabel>
-                            <Input
-                                color='neutral'
-                                variant='outlined'
-                                sx={{ pt: 1 }}
-                                value={placa.toUpperCase()}
-                                onChange={(e) => setPlaca(e.target.value)}
-                            />
-                        </FormControl>
-                        <FormControl orientation='vertical' size='lg'>
-                            <FormLabel>Tipo de vehiculo</FormLabel>
-                            <SelectBasic onSelect={(value) => setTipo(value)} />
-                        </FormControl>
-                        <Button variant='solid' color='primary' sx={{ mr: 2, mt: 2 }} onClick={() => handleConfirm()}>
-                            Confirmar
-                        </Button>
-                        <Button variant='outlined' color='danger' onClick={() => setOpen(false)}>
-                            Cancelar
-                        </Button>
-                    </Typography>
-                </Sheet>
-            </Modal>
-        </React.Fragment>
+        <>
+            <button onClick={() => setIsOpen(true)} popovertargetaction='show' popovertarget='pop'>
+                Agregar Vehiculo
+            </button>
+            {isOpen && ( // Renderizar el modal solo si isOpen es true
+                <div className='modal' popover='manual' id='pop'>
+                    <h2>Agregar Vehiculo</h2>
+                    <form className='form' method='POST' onSubmit={handleAddVehicle}>
+                        <label htmlFor='propietario'>Propietario</label>
+                        <Input type='text' id='propietario' value={propietario} onChange={handleChange} />
+                        <br />
+
+                        <label htmlFor='vehiculo'>Vehiculo</label>
+                        <Input type='text' id='vehiculo' value={vehiculo} onChange={handleChange} />
+                        <br />
+
+                        <label htmlFor='placa'>Placa</label>
+                        <Input type='text' id='placa' value={placa} onChange={handleChange} />
+                        <br />
+
+                        <label htmlFor='tipo'>Tipo de vehiculo</label>
+                        <select className='sel' id='tipo' value={tipo} onChange={handleChange}>
+                            <option value=''>--Selecciona--</option>
+                            <option value='Motocicleta'>Motocicleta</option>
+                            <option value='Auto'>Automovil</option>
+                            <option value='Pesado'>Vehiculo Pesado</option>
+                        </select>
+                        <br />
+                        <div className='options'>
+                            <button type='submit'>Agregar Vehiculo</button>
+                            <button type='button' onClick={() => setIsOpen(false)}>
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            )}
+        </>
     );
 };
