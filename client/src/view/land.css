@@ -52,6 +52,18 @@ header{
     border-bottom: 1px solid #ddd;
 }
 
+.parkCard{
+    max-height: 15.5rem;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid lightgray;
+}
+
+.parkCard::-webkit-scrollbar{
+    display: none;
+}
+
 .salidaButton {
     background-color: black;
     color: white;

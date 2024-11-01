@@ -7,8 +7,8 @@ import useGetVehicles from '../hooks/useGetVehicles.ts';
 import './land.css';
 import React, { useState } from 'react';
 import { useDeleteVehicles } from '../hooks/useDeleteVehicles.ts';
-import { AddModal } from './components/modal/Modal.tsx';
 import Swal from 'sweetalert2';
+import { Modal } from './components/modal/Modal.tsx';
 
 export const Land = () => {
     const [trigger, setTrigger] = useState(0);
@@ -39,14 +39,14 @@ export const Land = () => {
 
     const handleDelete = async (vehicleId: string) => {
         try {
-            await deleteVehicle(vehicleId);
             Swal.fire({
                 title: 'Vehiculo eliminado correctamente',
                 icon: 'success',
                 showConfirmButton: false,
-                timer: 1500,
+                timer: 1000,
             });
             setTrigger((prev) => prev - 1);
+            await deleteVehicle(vehicleId);
         } catch (error) {
             console.error('Error al eliminar el vehículo', error);
         }
@@ -74,7 +74,7 @@ export const Land = () => {
                     <Checkbox
                         text='Vehiculo Pesado'
                         id='pesado'
-                        onChange={() => handleCheckboxChange('Vehiculo Pesado')}
+                        onChange={() => handleCheckboxChange('Pesado')}
                     />
                     <Checkbox text='Motocicleta' id='moto' onChange={() => handleCheckboxChange('Motocicleta')} />
                     <Checkbox text='Autos' id='auto' onChange={() => handleCheckboxChange('Auto')} />
@@ -83,7 +83,7 @@ export const Land = () => {
                     <SearchBar onSearch={onChange} value={Value.toUpperCase()} />
                 </div>
                 <div className='buttons'>
-                    <AddModal title='Añadir vehiculo' text='Añadir Vehiculo' onVehicleAdded={handleAddVehicle} />
+                    <Modal onVehicleAdded={handleAddVehicle} />
                     <Button text='Espacios Disponibles' />
                 </div>
             </div>
@@ -97,7 +97,6 @@ export const Land = () => {
                     <span>Tipo de vehiculo</span>
                 </div>
                 <div className='parkCard'>
-                    <hr />
                     {Loading && <p>Cargando vehículos...</p>}
                     {Error && <p>Error: {Error}</p>}
                     {!Loading &&
@@ -120,7 +119,7 @@ export const Land = () => {
                             <p>No se encontraron vehículos</p>
                         ))}
                 </div>
-            </div>
+            </div><hr />
             <div className='tarifas'>
                 <Tarifas dia={30000} mes={200000} hora={5500} title='Tarifas Autos' />
                 <Tarifas dia={30000} mes={200000} hora={5500} title='Tarifas Motos' />
