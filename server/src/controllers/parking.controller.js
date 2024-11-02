@@ -6,7 +6,49 @@ parkingCtrl.getVehicles = (req, res) => {
         const query = 'SELECT * FROM vehiculos';
         db.query(query, (err, result) => {
             if (err) {
-                console.error('No se pudo obtener la informacion de los vehiculos', err);
+                console.error('No se pudo obtener la informacion de las plazas', err);
+                return;
+            }
+            res.status(200).json(result);
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
+    }
+};
+parkingCtrl.getAutosPlazas = (req, res) => {
+    try {
+        const query = 'SELECT * FROM plazasautos';
+        db.query(query, (err, result) => {
+            if (err) {
+                console.error('No se pudo obtener la informacion de las plazas', err);
+                return;
+            }
+            res.status(200).json(result);
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
+    }
+};
+parkingCtrl.getMotosPlazas = (req, res) => {
+    try {
+        const query = 'SELECT * FROM plazasmotocicletas';
+        db.query(query, (err, result) => {
+            if (err) {
+                console.error('No se pudo obtener la informacion de las plazas', err);
+                return;
+            }
+            res.status(200).json(result);
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
+    }
+};
+parkingCtrl.getPesadosPlazas = (req, res) => {
+    try {
+        const query = 'SELECT * FROM plazaspesados';
+        db.query(query, (err, result) => {
+            if (err) {
+                console.error('No se pudo obtener la informacion de las plazas', err);
                 return;
             }
             res.status(200).json(result);
@@ -48,12 +90,11 @@ parkingCtrl.exitVehicle = (req, res) => {
                 return res.status(404).json({ message: 'Vehículo no encontrado' });
             }
 
-            res.status(200).json({message: 'Vehiculo eliminado correctamente'});
+            res.status(200).json({ message: 'Vehiculo eliminado correctamente' });
         });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error', error });
     }
 };
-
 
 module.exports = parkingCtrl;
